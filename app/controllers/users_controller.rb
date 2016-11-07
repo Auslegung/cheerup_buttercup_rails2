@@ -5,13 +5,14 @@ class UsersController < ApplicationController
   ##          /users routes         ##
   ####################################
 
+  # GET /users
   def index
     users = User.all
     # cheer_ups = CheerUp.all
     render json: users
   end
 
-  #POST/users
+  # POST /users
   def create
     user = User.new(user_params)
     if user.save
@@ -21,7 +22,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # User authentication
+  # POST /users/login
   def login
     user = User.find_by(username: params[:user][:username])
 
@@ -33,7 +34,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/1
+  # GET /users/:id
   def show
     user = User.find(params[:id])
     user_cheer_ups = user.cheer_ups
@@ -45,7 +46,7 @@ class UsersController < ApplicationController
     }
   end
 
-  # PATCH/PUT /users/1
+  # PATCH/PUT /users/:id
   def update
     user = User.find(params[:id])
     if user.update(user_params)
@@ -55,7 +56,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE /users/1
+  # DELETE /users/:id
   def destroy
     user = User.find(params[:id])
     user.destroy
@@ -67,7 +68,7 @@ class UsersController < ApplicationController
   ##    /users/cheer_ups routes     ##
   ####################################
 
-  # Adds a cheer_up to a user
+  # Adds a cheer_up to a user POST /users/:id/add_cheer_up
   def add_cheer_up
     new_cheer_up = current_user.cheer_ups.new(cheer_up_params)
     if new_cheer_up.save
@@ -87,7 +88,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # Updates a user's single cheer_up
+  # Updates a user's single cheer_up PATCH /users/:id/update_cheer_up
   def update_cheer_up
     user = User.find(params[:id])
     updating_cheer_up = CheerUp.find(params[:cheer_up_id])
@@ -101,7 +102,7 @@ class UsersController < ApplicationController
     } # end render json
   end
 
-  # Remove a cheer_up from a user
+  # Remove a cheer_up from a user DELETE /users/:id/remove_cheer_up/:cheer_up_id
   def remove_cheer_up
     user = User.find(params[:id])
     cheer_up = CheerUp.find(params[:cheer_up_id])

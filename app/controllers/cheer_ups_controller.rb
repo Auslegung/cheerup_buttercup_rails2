@@ -1,16 +1,17 @@
 class CheerUpsController < ApplicationController
+  # GET /cheer_ups
   def index
     cheer_ups = CheerUp.all
 
     render json: {status: 200, cheer_ups: cheer_ups}
   end
-
+  # GET /cheer_ups/:id
   def show
     cheer_up = CheerUp.find(params[:id])
     render json: {status: 200, cheer_up: cheer_up}
   end
 
-  # Adds a review to a cheerup
+  # POST /cheer_ups/:id/add_review
   def add_review
     cheer_up = CheerUp.find(params[:id])
     review = cheer_up.reviews.new(review_params)

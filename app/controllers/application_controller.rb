@@ -17,7 +17,7 @@ class ApplicationController < ActionController::API
   end
 
   def decode_token(token)
-    token = JWT.decode(token, nil, false) # this will error if the token is invalid or expired
+    token = JWT.decode(token, nil, false) # Colin suggested we add [0] to the end of this line, but that may have been the cause of some of our bugs so we removed it.
   rescue
     render json: {status: 401, message: 'invalid or expired token'}
   end
